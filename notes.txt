@@ -1,0 +1,17 @@
+Remove the pem field from mup.js so your mup.js has username and host only.
+$ eval $(ssh-agent)
+$ ssh-add firdaus@gcp.pem
+
+./ngrok http 3000
+
+Logs:
+$ cd .deploy
+$ mup logs -f --tail=50
+
+Deploy:
+$ cd .deploy
+$ mup deploy
+
+If network error redeploy:
+$ cd .deploy
+$ mup deploy --cached-build

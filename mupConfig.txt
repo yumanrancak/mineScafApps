@@ -1,0 +1,47 @@
+module.exports = {
+  servers: {
+    one: {
+      host: '34.126.72.200', //Dev Serv
+      // host: '34.143.234.178', //Prod Serv
+      username: 'it.dept', //Key Dev
+      // username: 'firdaus', //Key Prod
+    },
+  },
+
+  app: {
+    // TODO: change app name and path
+    name: 'salesdev.egogohub.tech',
+    // name: 'sales.egogohub.com',
+    path: '/home/egogohub/Documents/work/sales2.egogohub.tech',
+    // path: '/Users/egogohubindonesia/Ops/ops.egogohub.tech',
+    volumes: {
+      '/images/Brand':'/imagesBrand',
+      '/attachment/salesRequest':'/attachmentSalesRequest',
+      '/attachment/salesReport':'/attachmentSalesReport'
+    },
+    servers: {
+      one: {},
+    },
+
+    env: {
+      ROOT_URL: 'https://salesdev.egogohub.tech',
+      // ROOT_URL: 'https://sales.egogohub.com',
+      MONGO_URL: 'mongodb://egogoIt:3g0g0It@mongod0.egogohub.tech:27017/development?authSource=admin' //Mongo URL Dev
+      // MONGO_URL: 'mongodb://egogoIt:3g0g0It@mongod0.egogohub.tech:27017/egogo?authSource=admin' //Mongo URL Prod
+    },
+
+    docker: {
+      image: 'zodern/meteor',
+    },
+    enableUploadProgressBar: true
+  },
+  proxy: {
+    // domains: 'sales.egogohub.com',
+    domains: 'salesdev.egogohub.tech',
+    ssl: {
+      forceSSL: true,
+      // Enable Let's Encrypt
+      letsEncryptEmail: 'daoez19@gmail.com'
+    }
+  },
+};
