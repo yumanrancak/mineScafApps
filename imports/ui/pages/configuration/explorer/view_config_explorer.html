@@ -1,0 +1,149 @@
+
+<template name="view_config_explorer">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Configuration Explorer | <b> Detail </b></h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item">Configuration </li>
+                <li class="breadcrumb-item "><a href="/"> Explorer</a></li>
+                <li class="breadcrumb-item active">Detail</li>
+              </ol>
+            </div>
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <!-- Order Scan -->
+        <div class="row">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header border-0">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <h5>Form</h5>
+                      </div>
+                      <div class="col-lg-6">
+                      <button class="btn btn-lg btn-warning float-right editForm" id='editform' style="border-radius: 10px;" ><i class="fas fa-edit" ></i>&nbsp;Edit Form</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row col-12">
+                      <div class="col-lg-6">
+                          <div class="row card-body text-middle" style="padding-top:10px;padding-bottom: 10px;">
+                            <label class="col-md-5"> Configuration Type  <a class="text-danger">*</a></label>
+                            <select class="select2 col-md-6" id="configurationtype">
+                              {{#each configuration_type}}
+                                <option value="{{_id}}" selected="{{selectCon_type _id}}">{{type_name}}</option>
+                              {{/each}}
+                            </select>
+                          </div>
+                          <div class="row card-body text-middle" style="padding-top:10px;padding-bottom: 10px;">
+                            <label class="col-md-5"> Configuration Name <a class="text-danger">*</a></label>
+                            <input type="text" class="form-control col-md-12" id="configurationname">
+                          </div>
+                          <div class="row card-body text-middle" style="padding-top:10px;padding-bottom: 10px;">
+                            <label class="col-md-5"> Parent Type </label>
+                            <select class="custom-select select2  col-md-7" id="parenttype" >
+                              <option value="" > No Choice</option>
+                              {{#each configuration_parent_type}}
+                                <option value="{{_id}}" selected="{{selectparent_type _id}}">{{type_name}}</option>
+                              {{/each}}
+                            </select>
+                          </div>
+                          <div class="row card-body text-middle" style="padding-top:10px;padding-bottom: 10px;">
+                          <label class="col-md-5"> Parent Configuration </label>
+                            <select class="custom-select select2 col-md-7" id="parentconfiguration" >
+                              {{#each configuration_parent}}
+                                <option value="{{_id}}" selected="{{selectparent _id}}">{{name}}</option>
+                              {{/each}}
+                            </select>
+                          </div>
+                      </div>
+                      <div class="col-lg-6">
+                          <div class="row card-body text-middle" style="padding-top:10px;padding-bottom: 10px;">
+                            <label class="col-md-5"> Opening Date  <a class="text-danger">*</a></label>
+                            <input type="date" class="form-control col-md-12" id="openingDate"
+                              placeholder="Configuration Type ..." readonly>
+                          </div>
+                          <div class="row card-body text-middle" style="padding-top:10px;padding-bottom: 10px;">
+                            <label class="col-md-5"> Closing Date  </label>
+                            <input type="date" class="form-control col-md-12" id="closingDate"
+                              placeholder="Configuration Type ..." readonly>
+                          </div>
+                          <div class="row card-body text-middle" style="padding-top:10px;padding-bottom: 10px;">
+                            <label class="col-md-5"> Status Active </label>
+                            <select class="custom-select select2 col-md-7" id="status" readonly>
+                              <option value="Active" >Active</option>
+                              <option value="In-active" >In-Active</option>
+                            </select>
+                          </div>
+                          <div class="row card-body text-middle" style="padding-top:10px;padding-bottom: 10px;" id="divStockpiletype" hidden>
+                            <label class="col-md-5"> Type Stockpile </label>
+                            <select class="custom-select select2 col-md-7" id="typeStockpile" readonly>
+                              <option value="" >-- Options --</option>
+                              <option value="WAG" >-- Options --</option>
+                              <option value="FIFO" >-- Options --</option>
+                              <option value="LIFO" >-- Options --</option>
+                            </select>
+                          </div>
+                      </div>
+                    </div><br>
+
+
+                    <div class="modal-footer justify-content-between">
+                      <a href="/configuration/explorer/" type="button" class="btn btn-default" data-dismiss="modal">Back</a>
+                      <!-- <button type="button" class="btn btn-block btn btn-outline-success col-lg-1 compbtn" style="border-radius: 10px;" id="completedBtn"><i class="fas fa-check"></i>&nbsp; Completed</button> -->
+                      <button type="button" class="btn btn-block btn-success col-lg-1 btnSave" style="border-radius: 10px;" id="savebtn" hidden><i class="fas fa-save"></i>&nbsp; Save</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- {{#if eq showdate_return true}} -->
+                <div class="card">
+                  <div class="card-body">
+                      <h6 class="mb-3 text-bold">HISTORY</h6>
+                      {{#if eq isSubHistroyExpense false}}
+                          <div class="col-md-4">
+                              <li style="list-style: none; margin-left: 20px;" >
+                                  <span class="load-item-title"></span>
+                                  <div class="content">
+                                      <span class="load-item-description"></span>
+                                  </div>
+                              </li>
+                          </div>
+                      {{/if}}
+                      <div class="timeline">
+                          <ul>
+                              <span id="historyContent"></span>
+                              
+                          </ul>
+                      </div>
+                  </div>
+                </div>
+                <!-- {{/if}} -->
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+  </div>
+  </template>

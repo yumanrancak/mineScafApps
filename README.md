@@ -1,6 +1,5 @@
-# sales2.egogohub.tech
+# MineScaf.com
 
-- Product
-- Sales
-- PO DO
-- Email Schedule
+- Dashboard
+- TruckLive Management
+- Configuration Exp

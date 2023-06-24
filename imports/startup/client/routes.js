@@ -10,6 +10,7 @@ import '../../ui/pages/login/login';
 
 import '../../ui/pages/home/home.js';
 import '../../ui/pages/configuration/explorer/configuration_explorer.js';
+import '../../ui/pages/configuration/explorer/view_config_explorer';
 
 
 // Set up all routes in the app
@@ -107,6 +108,16 @@ userRoutes.route('/configuration/explorer', {
         $('#MenuExplorer').addClass('active');
     },
 });
+
+
+userRoutes.route('/configuration/explorer/view/:id', {
+    name: 'App.configuration.explorer.view_config_explorer',
+    action() {
+        this.render('App_body', 'view_config_explorer');
+        $('.nav-item .nav-link').removeClass('active');
+    },
+});
+
 
 
 module.exports = {
