@@ -4,7 +4,7 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { funcSelect2,createTransID } from '../../../../module/helper/index';
 // import { asset_request_log } from '../../../../api/inventoryAset/inventoryAsset';
 import { ready } from 'jquery';
-import { configuration_explorer, configuration_type } from '../../../../api/configuration/configuration';
+import { configuration_explorer, configuration_log, configuration_type } from '../../../../api/configuration/configuration';
 
 
 toastr.options = {
@@ -37,6 +37,7 @@ const dataTypeConfig = new ReactiveVar([]);
 const dataParentConfig = new ReactiveVar([]);
 const dataConfig = new ReactiveVar([]);
 
+let sessionType = ''
 
 
 Template.view_config_explorer.onCreated(function () {
@@ -44,8 +45,7 @@ Template.view_config_explorer.onCreated(function () {
   // getdataTypeConfig()
   var id =FlowRouter.getParam('id')
   this.isSubs = new ReactiveVar(true);
-
-  var init = this
+  Meteor.subscribe('config_explorer_type')
   if(id){
     Meteor.call("get_configuration_explorer_by_id", id, (error, res) => {
       if(res){
@@ -59,7 +59,6 @@ Template.view_config_explorer.onCreated(function () {
         console.log(res)
         dataConfig.set(res)
         $('#parentconfiguration').val(res._id).trigger('change');
-        
         $('#status').val(res.status).trigger('change');
         $('#openingDate').val(moment(res.opening_Date).format('YYYY-MM-DD'))
         if( res.extentionID == 'MineScaf.Extention.Stockpile'){
@@ -70,6 +69,27 @@ Template.view_config_explorer.onCreated(function () {
         }
         $('#typeStockpile').val(res.stockpile_type).trigger('change');
         res.closedate ? $('#closingDate').val(moment(res.close_Date).format('YYYY-MM-DD')) : null
+        const asset = configuration_type.find().fetch()
+        dataTypeConfig.set(asset)
+        if(asset.length > 0){
+          for(let data of asset){
+            if(res.configuration_type == data._id){
+              sessionType = data.type_name
+              // console.log(sessionType)
+              break;
+            }
+          }
+        }
+      }
+    })
+    var init = this
+    init.autorun(function(){
+
+      init.getHistory = Meteor.subscribe('config_explorer_history',id)
+      if(init.getHistory.ready()){
+        let data = configuration_log.find().fetch()
+        // console.log(data)
+        parseHistoryList(data);
       }
     })
   }
@@ -114,6 +134,7 @@ Template.view_config_explorer.events({
   },
 
   "click .btnSave": function (event, template) {
+    var id =FlowRouter.getParam('id')
     var type = $('#configurationtype').val()
     var name = $('#configurationname').val()
     var parentype = $('#parenttype').val()
@@ -123,6 +144,7 @@ Template.view_config_explorer.events({
     var status = $('#status').val()
     var parentype = parentype ? parentype : "Main"
     var parentConfig = $('#parentconfiguration').val()
+    var ext = initTypeConfigurationID()
     
     const data = {
       configuration_type:type,
@@ -140,14 +162,14 @@ Template.view_config_explorer.events({
     }
     var checkform = validationForm(data)
     if(checkform == true){
-      Meteor.call('save_Congfiguration_exploerer',data, (error, result) => {
+      Meteor.call('update_configuration_explorer',id,data, (error, result) => {
         if(result){
-          toastr.success('Success to save configuration explorer' , 'Successfully!')
+          toastr.success('Success to update configuration explorer' , 'Successfully!')
           $('#modalNewExplorer').modal('hide')
           $('#modalNewExplorer').removeAttr('data-dismiss');
         }
         else{
-          toastr.error('Failed to save ', 'Error !')
+          toastr.error('Failed to update ', 'Error !')
         }
       })
 
@@ -282,15 +304,15 @@ const parseHistoryList = (data)=>{
 
 const getDescription = (data)=>{
   let result = {}
-  let user = getUser(data.createdBy)
+  let user = getUser(data.user)
 
-  if (data.logtype == 'insert') {
-      result.title = `Form Request Asset <u>Created</u>  `
-      result.description = `This form request created on <span class="text-bold">${moment(data.createdAt).format('dddd, DD MMMM YYYY, HH:mm')}</span> by <span class="text-bold">${user}.</span>`
+  if (data.status == 'insert') {
+      result.title = `Configuration Explorer <u>Created</u>  `
+      result.description = `This Configuration Explorer created on <span class="text-bold">${moment(data.createdAt).format('dddd, DD MMMM YYYY, HH:mm')}</span> by <span class="text-bold">${user}.</span>`
   } 
-  else if (data.logtype == 'update') {
-    result.title = `Form Request Asset <u>Updated</u> `
-    result.description = `This form request update on <span class="text-bold">${moment(data.createdAt).format('dddd, DD MMMM YYYY, HH:mm')}</span> by <span class="text-bold">${user}.</span>`
+  else if (data.status == 'update') {
+    result.title = `Configuration Explorer <u>Updated</u> `
+    result.description = `This Configuration Explorer update on <span class="text-bold">${moment(data.createdAt).format('dddd, DD MMMM YYYY, HH:mm')}</span> by <span class="text-bold">${user}.</span>`
   } 
   return result
 }
@@ -299,4 +321,50 @@ const getDescription = (data)=>{
 const getUser = (user)=>{
   var user = Meteor.users.findOne({_id:user})
   return user.username
+}
+
+
+const initTypeConfigurationID = ()=>{
+  if(sessionType == 'Area'){
+    return 'MineScaf.Extention.Area'
+  }
+  else if(sessionType == 'Stockpile'){
+    return 'MineScaf.Extention.Stockpile'
+  }
+  else if(sessionType == 'Location'){
+    return 'MineScaf.Extention.Location'
+  }
+  else if(sessionType == 'Warehouse'){
+    return 'MineScaf.Extention.Warehouse'
+  }
+  else if(sessionType == 'Stockyard'){
+    return 'MineScaf.Extention.Stockyard'
+  }
+  else if(sessionType == 'Category'){
+    return 'MineScaf.Extention.Category'
+  }
+  else if(sessionType == 'Truck Location'){
+    return 'MineScaf.Extention.TruckLocation'
+  }
+  else if(sessionType == 'Train Station'){
+    return 'MineScaf.Extention.TrainStation'
+  }
+  else if(sessionType == 'Barge Terminal'){
+    return 'MineScaf.Extention.BargeTerminal'
+  }
+  else if(sessionType == 'Port'){
+    return 'MineScaf.Extention.Port'
+  }
+  else if(sessionType == 'Transhipment'){
+    return 'MineScaf.Extention.Transhipment'
+  }
+  else if(sessionType == 'Waste'){
+    return 'MineScaf.Extention.Waste'
+  }
+  else if(sessionType == 'Mine Location'){
+    return 'MineScaf.Extention.MineLocation'
+  }
+  else if(sessionType == 'Mine Source'){
+    return 'MineScaf.Extention.MineSource'
+  }
 }

@@ -43,7 +43,7 @@
                     <li>
                       <span class="caret" id="{{_id}}">
                         <i class="nav-icon fas fa-sliders"></i>
-                        <a href="#"> {{name}}</a>
+                        <a href="/configuration/explorer/view/{{_id}}"> {{name}}</a>
                       </span>
                       <ul class="nested" >
                         {{#let lv2 = (getChild _id)}}
@@ -51,7 +51,7 @@
                         <li>
                           <span class="caret " id="{{_id}}">
                             <i class="nav-icon fas fa-sliders"></i>
-                            <a href="#"> {{name}}</a>
+                            <a href="/configuration/explorer/view/{{_id}}"> {{name}}</a>
                           </span>
                           <ul class="nested"  >
                             {{#let lv3 = (getChild _id)}}
@@ -59,7 +59,7 @@
                             <li>
                               <span class="caret" id="{{_id}}">
                                 <i class="nav-icon fas fa-sliders"></i>
-                                <a href="#"> {{name}}</a>
+                                <a href="/configuration/explorer/view/{{_id}}"> {{name}}</a>
                               </span>
                               <ul class="nested" >
                                 {{#let lv4 = (getChild _id)}}
@@ -67,7 +67,7 @@
                                 <li>
                                   <span class="caret" id="{{_id}}">
                                     <i class="nav-icon fas fa-sliders"></i>
-                                    <a href="#"> {{name}}</a>
+                                    <a href="/configuration/explorer/view/{{_id}}"> {{name}}</a>
                                   </span>
                                   <ul class="nested"  >
                                     {{#let lv5 = (getChild _id)}}
@@ -75,7 +75,7 @@
                                     <li>
                                       <span class="caret" id="{{_id}}">
                                         <i class="nav-icon fas fa-sliders"></i>
-                                        <a href="#"> {{name}}</a>
+                                        <a href="/configuration/explorer/view/{{_id}}"> {{name}}</a>
                                       </span>
                                       <ul class="nested"  >
                                         {{#let lv6 = (getChild _id)}}
@@ -83,7 +83,7 @@
                                         <li>
                                           <span class="caret" id="{{_id}}">
                                             <i class="nav-icon fas fa-sliders"></i>
-                                            <a href="#"> {{name}}</a>
+                                            <a href="/configuration/explorer/view/{{_id}}"> {{name}}</a>
                                           </span>
                                           <ul class="nested" >
                                             {{#let lv7 = (getChild _id)}}
@@ -91,7 +91,7 @@
                                             <li>
                                               <span class="caret" id="{{_id}}">
                                                 <i class="nav-icon fas fa-sliders"></i>
-                                                <a href="#"> {{name}}</a>
+                                                <a href="/configuration/explorer/view/{{_id}}"> {{name}}</a>
                                               </span>
                                               <ul class="nested"  >
                                                 {{#let lv8 = (getChild _id)}}
@@ -99,7 +99,7 @@
                                                 <li>
                                                   <span class="caret" id="{{_id}}">
                                                     <i class="nav-icon fas fa-sliders"></i>
-                                                    <a href="#"> {{name}}</a>
+                                                    <a href="/configuration/explorer/view/{{_id}}"> {{name}}</a>
                                                   </span>
                                                   <ul class="nested"  >
                                                     {{#let lv9 = (getChild _id)}}
@@ -107,7 +107,7 @@
                                                     <li>
                                                       <span class="caret" id="{{_id}}">
                                                         <i class="nav-icon fas fa-sliders"></i>
-                                                        <a href="#"> {{name}}</a>
+                                                        <a href="/configuration/explorer/view/{{_id}}"> {{name}}</a>
                                                       </span>
                                                       <ul class="nested"  >
                                                       </ul>
@@ -295,6 +295,6 @@
 
     <a href="/configuration/explorer/view/{{_id}}" class="btn btn-xs text-info text-xs" id="view{{_id}}" title="View"><i
       class="fas fa-eye"></i></a> &nbsp;&nbsp;&nbsp;
-    <button class="btn btn-xs text-danger btnCancel" id="delete{{_id}}" title="Delete"><i
-      class="fas fa-trash"></i></button>
+    <!-- <button class="btn btn-xs text-danger btnCancel" id="delete{{_id}}" title="Delete"><i
+      class="fas fa-trash"></i></button> -->
   </template>

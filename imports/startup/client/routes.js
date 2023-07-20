@@ -11,6 +11,7 @@ import '../../ui/pages/login/login';
 import '../../ui/pages/home/home.js';
 import '../../ui/pages/configuration/explorer/configuration_explorer.js';
 import '../../ui/pages/configuration/explorer/view_config_explorer';
+import '../../ui/pages/project_review/truck_live_management/truck_live_management';
 
 
 // Set up all routes in the app
@@ -115,6 +116,15 @@ userRoutes.route('/configuration/explorer/view/:id', {
     action() {
         this.render('App_body', 'view_config_explorer');
         $('.nav-item .nav-link').removeClass('active');
+    },
+});
+
+userRoutes.route('/project_review/truck_live_management', {
+    name: 'App.project_review.truck_live_management',
+    action() {
+        this.render('App_body', 'truck_live_management');
+        $('.nav-item .nav-link').removeClass('active');
+        $('#MenuTruckScaleManagement').addClass('active');
     },
 });
 

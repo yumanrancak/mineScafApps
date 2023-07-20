@@ -44,13 +44,39 @@ Meteor.methods({
             if(id){
                 configuration_log.insert({
                     id_configuration:id,
-                    status:id,
-                    createdBy:new Date,
+                    status:"insert",
+                    createdAt:new Date,
                     user:data.createdBy
                 })
                 return id
             }
         }
+    },
+    'update_configuration_explorer'(id,data){
+        var dataupdate = configuration_explorer.update({_id:id},{
+            $set:{
+                configuration_type:data.type,
+                name:data.name,
+                parent_configuration_type:data.parent_configuration_type,
+                parent_configuration_name:data.parent_configuration_name,
+                opening_Date:new Date(data.opening_Date),
+                close_Date:data.close_Date == null ? null :new Date(data.close_Date) ,
+                stockpile_type:data.stockpile_type,
+                status:data.status,
+                extentionID :data.extentionID,
+                status:data.status,
+                updatedBy:data.createdBy,
+                updatedAt:data.createdAt,
+            }
+        })
+        if(dataupdate){
+            configuration_log.insert({
+                id_configuration:id,
+                status:"update",
+                createdAt:new Date,
+                user:data.createdBy
+            })
+            return dataupdate
+        }
     }
-
 })
