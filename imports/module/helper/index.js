@@ -36,7 +36,7 @@ const createTransID = (id)=>{
 }
 
 const funcSelect2 = ()=>{
-    $('.select2').select2({width: '500%'})
+    $('.select2').select2({width: '100%'})
     $('.select2-selection--single').css('height','36px')
 }
 
